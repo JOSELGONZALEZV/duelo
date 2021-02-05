@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DUELO -JUEGO DE CARTAS</title>
+</head>
+<body>
+    <h1>juego de cartas</h1>
+
+<script>
+
+class Carta {
+    constructor ( nombre, costo){
+    this.nombre = nombre;
+    this.costo = costo;
+}
+}
+
+class Unidad extends Carta {
+    constructor ( nombre, costo, resilencia, poder){
+    super( nombre, costo);
+    this.resilencia = resilencia;
+    this.poder = poder;
+    }       
+ 
+
+ataque(target){
+
+    if(!(target instanceof Unidad)) { //intanceof que target no sea unidad (ojo ! y ())
+        console.log('no se puede atacar');}
+
+        target.resilencia -= this.poder;
+
+        if(target.resilencia <=0) {
+        console.log(target.nombre +' eliminado')
+    }
+}
+}
+
+
+class Efecto extends Carta {
+    constructor ( nombre, costo, texto, stat, magnitud ){
+    super(nombre, costo);
+    this.texto = texto;
+    this.stat = stat;
+    this.magnitud = magnitud;
+    }
+    afecta(unidad){
+        if (!unidad instanceof Unidad){  // instanceof compara que unidad corresponda a unidad 
+            console.log('no se puede afectar')
+        }
+        if (this.stat == 'resilenciar'){
+            unidad.resilencia -= this.magnitud;}
+            else {unidad.poder += this.magnitud;}
+        }
+}
+{
+console.log('jugador 1 convoca a ninja rojo');
+const ninja_rojo = new Unidad (' ninja cinturon rojo', 3,4,3);
+debugger; // pausa
+
+console.log('jugador 1 tira algoritmo_dificil y afecta a ninja rojo');
+const algoritmo_dificil = new Efecto ('Algoritmo Dificil', 2, 'aumenta resilencia en 3', 'resilencia', 3);
+algoritmo_dificil.afecta(ninja_rojo);
+debugger; // pausa
+
+console.log('jugador 2 convoca a ninja negro');
+const ninja_negro = new Unidad ('ninja cinturon negro',4,4,5);
+debugger;
+
+console.log('jugador 2 tira rechazo_promeza y afecta a ninja cintuon rojo');
+const rechazo_promeza = new Efecto ('Rechazo de promeza no manejado', 1, 'reducir la resilencia en 2' , 'resilencia',  -2);
+rechazo_promeza.afecta(ninja_rojo);
+debugger;
+
+console.log('jugador 1 tira programacion en pareja y afecta a ninja rojo');
+const programacion_pareja = new Efecto ( 'programacion en pareja', 3, 'aumenta el poder en 2', 'poder', 2);
+programacion_pareja.afecta(ninja_rojo);
+debugger;
+
+console.log('ninja rojo ataca a ninja negro');
+ninja_rojo.ataque(ninja_negro);
+debugger;
+}
+</script>
+    
+</body>
+</html>
